@@ -74,7 +74,7 @@ const homeInsuranceEligibility = (range = 0, riskCriteria) => {
   if (house.ownership_status === IOwnershipStatus.Mortgaged) {
     range += 1;
   }
-  
+
   range = calculateAgeAndIncomeRange(range, riskCriteria);
   return transformRisk(range);
 };

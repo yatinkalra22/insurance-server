@@ -7,7 +7,7 @@ const {
   lifeInsuranceEligibility,
 } = require("../../../helper/eligibilityValidation");
 
-router.post("/calculate", async (req, res) => {
+router.post("/calculate", async (req, res, next) => {
   let response = {};
   let message = "Oops, Something went wrong!";
   try {
@@ -30,6 +30,7 @@ router.post("/calculate", async (req, res) => {
     });
   } catch (error) {
     console.log("error: ", error);
+    next(error);
   }
 });
 
