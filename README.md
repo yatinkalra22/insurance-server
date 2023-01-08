@@ -21,12 +21,18 @@ npm i
 npm start
 ```
 
+## Testing
+```sh
+cd insurance-server
+npm run test
+```
+
 ## Technical Implementation
 
 ```sh
 express - To create rest apis
 jest and supertest - To create unit-test cases
-nodemon - To auto update the server with new changes
+nodemon - To auto update the server with new changes (local)
 ```
 
 ## Addtional Comments
