@@ -36,8 +36,6 @@ const autoInsuranceEligibility = (range = 0, riskCriteria) => {
   if (yearDifference <= 5) {
     range += 1;
   }
-
-  range = calculateAgeAndIncomeRange(range, riskCriteria);
   return transformRisk(range);
 };
 
@@ -61,8 +59,6 @@ const disabilityInsuranceEligibility = (range = 0, riskCriteria) => {
   if (maritalStatus === IMaritalStatus.Married) {
     range -= 1;
   }
-
-  range = calculateAgeAndIncomeRange(range, riskCriteria);
   return transformRisk(range);
 };
 
@@ -75,7 +71,6 @@ const homeInsuranceEligibility = (range = 0, riskCriteria) => {
     range += 1;
   }
 
-  range = calculateAgeAndIncomeRange(range, riskCriteria);
   return transformRisk(range);
 };
 
@@ -88,8 +83,6 @@ const lifeInsuranceEligibility = (range = 0, riskCriteria) => {
   if (maritalStatus === IMaritalStatus.Married) {
     range += 1;
   }
-
-  range = calculateAgeAndIncomeRange(range, riskCriteria);
   return transformRisk(range);
 };
 

@@ -5,6 +5,7 @@ const {
   disabilityInsuranceEligibility,
   homeInsuranceEligibility,
   lifeInsuranceEligibility,
+  calculateAgeAndIncomeRange
 } = require("../../../helper/eligibilityValidation");
 
 router.post("/calculate", async (req, res, next) => {
@@ -16,13 +17,14 @@ router.post("/calculate", async (req, res, next) => {
       (previousValue, currentValue) => previousValue + currentValue,
       0
     );
-    response.auto = autoInsuranceEligibility(riskQuestionsSum, req.body);
+    const ageAndHomeRange = calculateAgeAndIncomeRange(riskQuestionsSum, req.body)
+    response.auto = autoInsuranceEligibility(ageAndHomeRange, req.body);
     response.disability = disabilityInsuranceEligibility(
-      riskQuestionsSum,
+      ageAndHomeRange,
       req.body
     );
-    response.home = homeInsuranceEligibility(riskQuestionsSum, req.body);
-    response.life = lifeInsuranceEligibility(riskQuestionsSum, req.body);
+    response.home = homeInsuranceEligibility(ageAndHomeRange, req.body);
+    response.life = lifeInsuranceEligibility(ageAndHomeRange, req.body);
     message = "Insurance Eligibility Checked Successfully";
     res.status(200).json({
       message,
