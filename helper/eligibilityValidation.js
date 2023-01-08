@@ -11,8 +11,8 @@ const transformRisk = (range = 0) => {
   return IStatus.Economic;
 };
 
-const calculateAgeAndIncomeRange = (range = 0, body) => {
-  const { income, age } = body;
+const calculateAgeAndIncomeRange = (range = 0, riskCriteria) => {
+  const { income, age } = riskCriteria;
   if (age < 30) {
     range -= 2;
   } else if (age >= 30 && age <= 40) {
@@ -24,8 +24,8 @@ const calculateAgeAndIncomeRange = (range = 0, body) => {
   return range;
 };
 
-const autoInsuranceEligibility = (range = 0, body) => {
-  const { vehicle } = body;
+const autoInsuranceEligibility = (range = 0, riskCriteria) => {
+  const { vehicle } = riskCriteria;
   const currentYear = new Date().getFullYear();
 
   if (!vehicle) {
@@ -37,18 +37,18 @@ const autoInsuranceEligibility = (range = 0, body) => {
     range += 1;
   }
 
-  range = calculateAgeAndIncomeRange(range, body);
+  range = calculateAgeAndIncomeRange(range, riskCriteria);
   return transformRisk(range);
 };
 
-const disabilityInsuranceEligibility = (range = 0, body) => {
+const disabilityInsuranceEligibility = (range = 0, riskCriteria) => {
   const {
     house,
     income,
     age,
     marital_status: maritalStatus,
     dependents,
-  } = body;
+  } = riskCriteria;
   if (!income || age > 60) {
     return IStatus.Ineligible;
   }
@@ -62,32 +62,25 @@ const disabilityInsuranceEligibility = (range = 0, body) => {
     range -= 1;
   }
 
-  range = calculateAgeAndIncomeRange(range, body);
+  range = calculateAgeAndIncomeRange(range, riskCriteria);
   return transformRisk(range);
 };
 
-const homeInsuranceEligibility = (range = 0, body) => {
-  const { house } = body;
+const homeInsuranceEligibility = (range = 0, riskCriteria) => {
+  const { house } = riskCriteria;
   if (!house) {
     return IStatus.Ineligible;
   }
   if (house.ownership_status === IOwnershipStatus.Mortgaged) {
     range += 1;
   }
-
-  range = calculateAgeAndIncomeRange(range, body);
+  
+  range = calculateAgeAndIncomeRange(range, riskCriteria);
   return transformRisk(range);
 };
 
-const lifeInsuranceEligibility = (range = 0, body) => {
-  const {
-    house,
-    income,
-    vehicle,
-    marital_status: maritalStatus,
-    age,
-    dependents,
-  } = body;
+const lifeInsuranceEligibility = (range = 0, riskCriteria) => {
+  const { marital_status: maritalStatus, dependents } = riskCriteria;
   if (dependents) {
     range += 1;
   }
@@ -96,7 +89,7 @@ const lifeInsuranceEligibility = (range = 0, body) => {
     range += 1;
   }
 
-  range = calculateAgeAndIncomeRange(range, body);
+  range = calculateAgeAndIncomeRange(range, riskCriteria);
   return transformRisk(range);
 };
 
@@ -105,4 +98,6 @@ module.exports = {
   disabilityInsuranceEligibility,
   homeInsuranceEligibility,
   lifeInsuranceEligibility,
+  transformRisk,
+  calculateAgeAndIncomeRange,
 };
