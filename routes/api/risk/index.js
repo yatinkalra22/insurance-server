@@ -5,19 +5,25 @@ const {
   disabilityInsuranceEligibility,
   homeInsuranceEligibility,
   lifeInsuranceEligibility,
-  calculateAgeAndIncomeRange
+  calculateAgeAndIncomeRange,
 } = require("../../../helper/eligibilityValidation");
+const { riskCalculateBodySchema } = require("../../../middleware/validatePayload");
 
 router.post("/calculate", async (req, res, next) => {
   let response = {};
   let message = "Oops, Something went wrong!";
   try {
-    const { risk_questions: riskQuestions } = req.body;
+    const { age, dependents, income, risk_questions: riskQuestions } = req.body;
+    const validateBody = riskCalculateBodySchema.validate(req.body);
+    if (validateBody.error) throw new Error(validateBody.error);
     const riskQuestionsSum = riskQuestions.reduce(
       (previousValue, currentValue) => previousValue + currentValue,
       0
     );
-    const ageAndHomeRange = calculateAgeAndIncomeRange(riskQuestionsSum, req.body)
+    const ageAndHomeRange = calculateAgeAndIncomeRange(
+      riskQuestionsSum,
+      req.body
+    );
     response.auto = autoInsuranceEligibility(ageAndHomeRange, req.body);
     response.disability = disabilityInsuranceEligibility(
       ageAndHomeRange,

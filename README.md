@@ -32,6 +32,7 @@ npm run test
 ```sh
 express - To create rest apis
 jest and supertest - To create unit-test cases
+joi - To validate input paramter or body
 nodemon - To auto update the server with new changes (local)
 ```
 
