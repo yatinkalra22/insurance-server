@@ -27,6 +27,39 @@ cd insurance-server
 npm run test
 ```
 
+## Endpoint detail
+```sh
+Type - POST
+
+Endpoint - localhost:4000/api/risk/calculate
+
+Payload/Body - 
+
+{
+  "age": 35,
+  "dependents": 2,
+  "house": {"ownership_status": "owned"},
+  "income": 0,
+  "marital_status": "married",
+  "risk_questions": [0, 1, 0],
+  "vehicle": {"year": 2018}
+}
+
+Response -
+
+{
+    "message": "Insurance Eligibility Checked Successfully",
+    "data": {
+        "auto": "regular",
+        "disability": "ineligible",
+        "home": "economic",
+        "life": "regular"
+    }
+}
+
+Response Logic - https://github.com/ccrishi/backend-take-home-assignment/blob/master/README.md
+```
+
 ## Technical Implementation
 
 ```sh
